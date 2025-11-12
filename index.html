@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amplificatori Operazionali - Guida Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+        }
+        
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: #f0f0f0;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        .formula-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 1.2em;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .important-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .tip-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .circuit-diagram {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .example {
+            background: #e7f3ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        strong {
+            color: #667eea;
+        }
+        
+        .symbol {
+            font-size: 1.3em;
+            color: #764ba2;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔌 Amplificatori Operazionali</h1>
+            <p class="subtitle">Guida Completa agli Amplificatori a Retroazione Negativa</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#introduzione">Introduzione</a></li>
+                <li><a href="#principi">Principi Base</a></li>
+                <li><a href="#invertente">Amp. Invertente</a></li>
+                <li><a href="#non-invertente">Amp. Non Invertente</a></li>
+                <li><a href="#sommatori">Sommatori</a></li>
+                <li><a href="#differenziale">Differenziale</a></li>
+                <li><a href="#esempi">Esempi Pratici</a></li>
+            </ul>
+        </nav>
+
+        <section id="introduzione">
+            <h2>📚 Introduzione agli Amplificatori Operazionali</h2>
+            
+            <h3>Cos'è un Amplificatore Operazionale?</h3>
+            <p>Un <strong>amplificatore operazionale</strong> (OP-AMP) è un componente elettronico fondamentale che permette di amplificare segnali elettrici con grande precisione. È chiamato "operazionale" perché può eseguire operazioni matematiche come somma, sottrazione, integrazione e derivazione.</p>
+            
+            <div class="circuit-diagram">
+                <h4>Simbolo Circuitale</h4>
+                <p style="font-size: 3em; margin: 20px 0;">△</p>
+                <p><strong>+</strong> Ingresso Non Invertente (sopra)</p>
+                <p><strong>-</strong> Ingresso Invertente (sotto)</p>
+                <p><strong>→</strong> Uscita (a destra)</p>
+            </div>
+            
+            <h3>Struttura di un OP-AMP</h3>
+            <p>Un amplificatore operazionale è composto da tre stadi fondamentali:</p>
+            <ul>
+                <li><strong>Stadio di Ingresso (Differenziale):</strong> Riceve i segnali dagli ingressi invertente (-) e non invertente (+)</li>
+                <li><strong>Stadio Intermedio:</strong> Amplifica il segnale differenziale</li>
+                <li><strong>Stadio di Uscita:</strong> Fornisce il segnale amplificato con capacità di pilotaggio</li>
+            </ul>
+            
+            <div class="important-box">
+                <h4>⚡ La Retroazione Negativa</h4>
+                <p>L'uso della <strong>retroazione negativa</strong> è essenziale per:</p>
+                <ul>
+                    <li>Stabilizzare il guadagno dell'amplificatore</li>
+                    <li>Ridurre la distorsione del segnale</li>
+                    <li>Aumentare la larghezza di banda</li>
+                    <li>Rendere le prestazioni indipendenti dai parametri del singolo componente</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="principi">
+            <h2>🎯 Principi Base di Funzionamento</h2>
+            
+            <h3>Amplificatore Operazionale Ideale</h3>
+            <p>Per semplificare l'analisi, consideriamo un OP-AMP <strong>ideale</strong> con queste caratteristiche:</p>
+            
+            <div class="tip-box">
+                <h4>Caratteristiche dell'OP-AMP Ideale:</h4>
+                <ol>
+                    <li><strong>Guadagno in Anello Aperto (A<sub>vol</sub>) = ∞</strong><br>
+                        Il guadagno senza retroazione è infinito</li>
+                    
+                    <li><strong>Resistenza di Ingresso (R<sub>i</sub>) = ∞</strong><br>
+                        Non assorbe corrente dagli ingressi: <span class="symbol">I<sub>+</sub> = I<sub>-</sub> = 0</span></li>
+                    
+                    <li><strong>Resistenza di Uscita (R<sub>o</sub>) = 0</strong><br>
+                        L'uscita non è influenzata dal carico collegato</li>
+                    
+                    <li><strong>Banda Passante Infinita</strong><br>
+                        Amplifica tutte le frequenze allo stesso modo</li>
+                </ol>
+            </div>
+            
+            <h3>Guadagno in Anello Aperto</h3>
+            <p>Il guadagno in anello aperto rappresenta l'amplificazione naturale dell'OP-AMP:</p>
+            
+            <div class="formula-box">
+                V<sub>o</sub> = A<sub>vol</sub> × V<sub>d</sub>
+            </div>
+            
+            <p>Dove:</p>
+            <ul>
+                <li><strong>V<sub>o</sub></strong> = Tensione di uscita</li>
+                <li><strong>A<sub>vol</sub></strong> = Guadagno in anello aperto (molto elevato: 10⁵ - 10⁶)</li>
+                <li><strong>V<sub>d</sub></strong> = Tensione differenziale di ingresso (V<sub>+</sub> - V<sub>-</sub>)</li>
+            </ul>
+            
+            <div class="important-box">
+                <h4>⚠️ Tensione Differenziale e Saturazione</h4>
+                <p>Poiché A<sub>vol</sub> è molto elevato, anche una piccola tensione differenziale V<sub>d</sub> porterebbe l'uscita in <strong>saturazione</strong> (vicino ai valori di alimentazione V<sub>CC</sub> e -V<sub>CC</sub>).</p>
+                <p>Per questo motivo, in configurazioni con retroazione negativa, possiamo assumere che:</p>
+                <div class="formula-box">
+                    V<sub>d</sub> ≈ 0  →  V<sub>+</sub> ≈ V<sub>-</sub>
+                </div>
+                <p>Questo è il principio del <strong>corto circuito virtuale</strong> (virtual ground).</p>
+            </div>
+            
+            <h3>Le Due Leggi Fondamentali</h3>
+            <div class="tip-box">
+                <h4>Quando l'OP-AMP lavora in zona lineare (con retroazione negativa):</h4>
+                <p><strong>1️⃣ Prima Legge:</strong> La tensione tra i due ingressi è praticamente nulla</p>
+                <div class="formula-box">
+                    V<sub>+</sub> = V<sub>-</sub>
+                </div>
+                
+                <p><strong>2️⃣ Seconda Legge:</strong> La corrente che entra negli ingressi è nulla</p>
+                <div class="formula-box">
+                    I<sub>+</sub> = I<sub>-</sub> = 0
+                </div>
+            </div>
+        </section>
+
+        <section id="invertente">
+            <h2>🔄 Amplificatore Invertente</h2>
+            
+            <p>L'<strong>amplificatore invertente</strong> è una delle configurazioni fondamentali. Il segnale di ingresso viene applicato all'ingresso invertente (-) attraverso una resistenza, mentre l'ingresso non invertente (+) è connesso a massa.</p>
+            
+            <div class="circuit-diagram">
+                <h4>Schema Circuitale</h4>
+                <pre style="font-family: monospace; font-size: 0.9em; text-align: left; display: inline-block;">
+        R₂
+    ┌────/\/\/\────┐
+    |              |
+V_i ──/\/\/\──┬──[−]     
+    R₁        |   [+]── V_o
+              └──[−]
+                 △
+                GND
+                </pre>
+            </div>
+            
+            <h3>📐 Derivazione della Formula</h3>
+            
+            <div class="example">
+                <h4>Passo 1: Applicare la Prima Legge</h4>
+                <p>Poiché V<sub>+</sub> = 0 (collegato a massa) e V<sub>+</sub> = V<sub>-</sub>, allora:</p>
+                <div class="formula-box">
+                    V<sub>-</sub> = 0  (Massa Virtuale)
+                </div>
+            </div>
+            
+            <div class="example">
+                <h4>Passo 2: Applicare la Legge di Kirchhoff</h4>
+                <p>La corrente che attraversa R₁ deve essere uguale alla corrente che attraversa R₂ (poiché I<sub>-</sub> = 0):</p>
+                <div class="formula-box">
+                    I₁ = I₂
+                </div>
+                <p>Quindi:</p>
+                <div class="formula-box">
+                    (V<sub>i</sub> - V<sub>-</sub>)/R₁ = (V<sub>-</sub> - V<sub>o</sub>)/R₂
+                </div>
+            </div>
+            
+            <div class="example">
+                <h4>Passo 3: Semplificare</h4>
+                <p>Sostituendo V<sub>-</sub> = 0:</p>
+                <div class="formula-box">
+                    V<sub>i</sub>/R₁ = -V<sub>o</sub>/R₂
+                </div>
+            </div>
+            
+            <div class="formula-box" style="background: #d4edda; border-color: #28a745;">
+                <h4>✅ Formula Finale dell'Amplificatore Invertente</h4>
+                V<sub>o</sub> = -(R₂/R₁) × V<sub>i</sub>
+            </div>
+            
+            <div class="important-box">
+                <h4>🔍 Caratteristiche Principali</h4>
+                <ul>
+                    <li><strong>Guadagno:</strong> A = -R₂/R₁ (il segno negativo indica inversione di fase)</li>
+                    <li><strong>Inversione di Fase:</strong> Il segnale di uscita è sfasato di 180° rispetto all'ingresso</li>
+                    <li><strong>Resistenza di Ingresso:</strong> R<sub>in</sub> = R₁</li>
+                    <li><strong>Stabilità:</strong> Il guadagno dipende solo dai valori delle resistenze</li>
+                </ul>
+            </div>
+            
+            <div class="example">
+                <h4>💡 Esempio Pratico</h4>
+                <p><strong>Dati:</strong> R₁ = 10 kΩ, R₂ = 100 kΩ, V<sub>i</sub> = 0.5 V</p>
+                <p><strong>Soluzione:</strong></p>
+                <p>Guadagno: A = -R₂/R₁ = -100/10 = -10</p>
+                <p>Tensione di uscita: V<sub>o</sub> = -10 × 0.5 = -5 V</p>
+                <p>Il segnale è stato amplificato 10 volte e invertito di fase.</p>
+            </div>
+        </section>
+
+        <section id="non-invertente">
+            <h2>➕ Amplificatore Non Invertente</h2>
+            
+            <p>L'<strong>amplificatore non invertente</strong> applica il segnale di ingresso all'ingresso non invertente (+), mentre la retroazione avviene sull'ingresso invertente (-).</p>
+            
+            <div class="circuit-diagram">
+                <h4>Schema Circuitale</h4>
+                <pre style="font-family: monospace; font-size: 0.9em; text-align: left; display: inline-block;">
+        R₂
+    ┌────/\/\/\────┐
+    |              |
+V_i ─────────[+]  |     
+             [−]──┘── V_o
+    ┌────────[−]
+    |        △
+   R₁
+    |
+   GND
+                </pre>
+            </div>
+            
+            <h3>📐 Derivazione della Formula</h3>
+            
+            <div class="example">
+                <h4>Passo 1: Applicare la Prima Legge</h4>
+                <p>Poiché V<sub>+</sub> = V<sub>i</sub> e V<sub>+</sub> = V<sub>-</sub>, allora:</p>
+                <div class="formula-box">
+                    V<sub>-</sub> = V<sub>i</sub>
+                </div>
+            </div>
+            
+            <div class="example">
+                <h4>Passo 2: Analisi del Partitore di Tensione</h4>
+                <p>V<sub>i</sub> è la tensione sul partitore formato da R₁ e R₂:</p>
+                <div class="formula-box">
+                    V<sub>i</sub> = V<sub>o</sub> × R₁/(R₁ + R₂)
+                </div>
+            </div>
+            
+            <div class="example">
+                <h4>Passo 3: Ricavare V<sub>o</sub></h4>
+                <p>Risolvendo per V<sub>o</sub>:</p>
+                <div class="formula-box">
+                    V<sub>o</sub> = V<sub>i</sub> × (R₁ + R₂)/R₁
+                </div>
+            </div>
+            
+            <div class="formula-box" style="background: #d4edda; border-color: #28a745;">
+                <h4>✅ Formula Finale dell'Amplificatore Non Invertente</h4>
+                V<sub>o</sub> = (1 + R₂/R₁) × V<sub>i</sub>
+            </div>
+            
+            <div class="important-box">
+                <h4>🔍 Caratteristiche Principali</h4>
+                <ul>
+                    <li><strong>Guadagno:</strong> A = 1 + R₂/R₁ (sempre maggiore o uguale a 1)</li>
+                    <li><strong>Nessuna Inversione:</strong> Il segnale di uscita è in fase con l'ingresso</li>
+                    <li><strong>Resistenza di Ingresso:</strong> R<sub>in</sub> ≈ ∞ (molto elevata)</li>
+                    <li><strong>Guadagno Minimo:</strong> 1 (quando R₂ = 0, configurazione buffer)</li>
+                </ul>
+            </div>
+            
+            <h3>📡 Voltage Follower (Buffer)</h3>
+            <div class="tip-box">
+                <p>Un caso particolare è il <strong>voltage follower</strong> o <strong>inseguitore di tensione</strong>, ottenuto con R₂ = 0 (o collegamento diretto) e R₁ = ∞:</p>
+                <div class="formula-box">
+                    V<sub>o</sub> = V<sub>i</sub>  (Guadagno = 1)
+                </div>
+                <p><strong>Utilizzo:</strong> Permette di "isolare" circuiti, fornendo un'alta impedenza di ingresso e una bassa impedenza di uscita, senza alterare la tensione del segnale.</p>
+            </div>
+            
+            <div class="example">
+                <h4>💡 Esempio Pratico</h4>
+                <p><strong>Dati:</strong> R₁ = 10 kΩ, R₂ = 50 kΩ, V<sub>i</sub> = 1 V</p>
+                <p><strong>Soluzione:</strong></p>
+                <p>Guadagno: A = 1 + R₂/R₁ = 1 + 50/10 = 6</p>
+                <p>Tensione di uscita: V<sub>o</sub> = 6 × 1 = 6 V</p>
+                <p>Il segnale è stato amplificato 6 volte mantenendo la stessa fase.</p>
+            </div>
+        </section>
+
+        <section id="sommatori">
+            <h2>➕ Amplificatori Sommatori</h2>
+            
+            <h3>Sommatore Invertente</h3>
+            <p>Il <strong>sommatore invertente</strong> permette di sommare più segnali di ingresso, producendo un'uscita che è la somma invertita e pesata degli ingressi.</p>
+            
+            <div class="circuit-diagram">
+                <h4>Schema Circuitale (3 ingressi)</h4>
+                <pre style="font-family: monospace; font-size: 0.9em; text-align: left; display: inline-block;">
+         R
+    ┌────/\/\/\────┐
+    |              |
+V₁ ──/\/\/\───┬───[−]     
+    R₁        |   [+]── V_o
+V₂ ──/\/\/\───┤   △
+    R₂        |   
+V₃ ──/\/\/\───┘   GND
+    R₃
+                </pre>
+            </div>
+            
+            <div class="formula-box" style="background: #d4edda; border-color: #28a745;">
+                <h4>✅ Formula del Sommatore Invertente</h4>
+                V<sub>o</sub> = -(R/R₁)V₁ - (R/R₂)V₂ - (R/R₃)V₃
+            </div>
+            
+            <div class="tip-box">
+                <h4>📌 Caso Particolare: R₁ = R₂ = R₃ = R</h4>
+                <p>Se tutte le resistenze di ingresso sono uguali alla resistenza di retroazione:</p>
+                <div class="formula-box">
+                    V<sub>o</sub> = -(V₁ + V₂ + V₃)
+                </div>
+                <p>In questo caso l'uscita è semplicemente la somma invertita degli ingressi.</p>
+            </div>
+            
+            <h3>Sommatore Non Invertente</h3>
+            <p>Il <strong>sommatore non invertente</strong> produce un'uscita che è la somma amplificata degli ingressi, senza inversione di fase.</p>
+            
+            <div class="formula-box" style="background: #d4edda; border-color: #28a745;">
+                <h4>✅ Formula del Sommatore Non Invertente</h4>
+                V<sub>o</sub> = (1 + R<sub>f</sub>/R) × (V₁ + V₂ + V₃)/3
+            </div>
+            
+            <div class="example">
+                <h4>💡 Esempio Pratico - Mixer Audio</h4>
+                <p><strong>Applicazione:</strong> Sommatore invertente con 3 canali audio</p>
+                <p><strong>Dati:</strong> R₁ = R₂ = R₃ = 10 kΩ, R = 30 kΩ</p>
+                <p>V₁ = 0.5 V, V₂ = 0.3 V, V₃ = 0.2 V</p>
+                <p><strong>Soluzione:</strong></p>
+                <p>V<sub>o</sub> = -(30/10)(0.5 + 0.3 + 0.2) = -3 × 1 = -3 V</p>
+                <p>I tre segnali audio sono stati sommati e amplificati di un fattore 3.</p>
+            </div>
+        </section>
+
+        <section id="differenziale">
+            <h2>➖ Amplificatore Differenziale (Sottrattore)</h2>
+            
+            <p>L'<strong>amplificatore differenziale</strong> o <strong>sottrattore</strong> produce un'uscita proporzionale alla differenza tra due segnali di ingresso.</p>
+            
+            <div class="circuit-diagram">
+                <h4>Schema Circuitale</h4>
+                <pre style="font-family: monospace; font-size: 0.9em; text-align: left; display: inline-block;">
+        R₂
+    ┌────/\/\/\────┐
+    |              |
+V₁ ──/\/\/\───────[−]     
+    R₁            [+]── V_o
+                  △
+        R₄        |
+V₂ ──/\/\/\───┬───┘
+    R₃        |
+             GND
+                </pre>
+            </div>
+            
+            <div class="formula-box" style="background: #d4edda; border-color: #28a745;">
+                <h4>✅ Formula dell'Amplificatore Differenziale</h4>
+                V<sub>o</sub> = (R₂/R₁) × (V₂ - V₁)
+                <br><br>
+                <small>Condizione: R₂/R₁ = R₄/R₃</small>
+            </div>
+            
+            <div class="important-box">
+                <h4>⚠️ Condizione di Bilanciamento</h4>
+                <p>Per ottenere un amplificatore differenziale perfetto, è necessario che:</p>
+                <div class="formula-box">
+                    R₂/R₁ = R₄/R₃
+                </div>
+                <p>Questa condizione assicura che il circuito amplifichi solo la differenza tra i due ingressi, rigettando il segnale comune (Common Mode Rejection).</p>
+            </div>
+            
+            <h3>📊 Applicazioni Pratiche</h3>
+            <ul>
+                <li><strong>Misura di Segnali Differenziali:</strong> Sensori bilanciati, termocoppie</li>
+                <li><strong>Eliminazione del Rumore:</strong> Rigetta i disturbi comuni ai due ingressi</li>
+                <li><strong>Strumentazione:</strong> Amplificatori per acquisizione dati</li>
+                <li><strong>Audio Professionale:</strong> Connessioni bilanciate XLR</li>
+            </ul>
+            
+            <div class="example">
+                <h4>💡 Esempio Pratico - Ponte di Wheatstone</h4>
+                <p><strong>Applicazione:</strong> Misura di una piccola variazione di resistenza</p>
+                <p><strong>Dati:</strong> R₁ = R₂ = 10 kΩ, V₁ = 2.5 V, V₂ = 2.7 V</p>
+                <p><strong>Soluzione:</strong></p>
+                <p>V<sub>o</sub> = (10/10) × (2.7 - 2.5) = 1 × 0.2 = 0.2 V</p>
+                <p>Il circuito ha amplificato la piccola differenza di 200 mV tra i due ingressi.</p>
+            </div>
+        </section>
+
+        <section id="esempi">
+            <h2>🎓 Esempi Pratici e Applicazioni</h2>
+            
+            <h3>Esempio 1: Progetto di un Amplificatore Invertente</h3>
+            <div class="example">
+                <h4>Specifiche:</h4>
+                <ul>
+                    <li>Guadagno richiesto: A = -10</li>
+                    <li>Resistenza di ingresso: R<sub>in</sub> = 10 kΩ</li>
+                </ul>
+                
+                <h4>Soluzione:</h4>
+                <p><strong>Step 1:</strong> Scegliere R₁ = R<sub>in</sub> = 10 kΩ</p>
+                <p><strong>Step 2:</strong> Dalla formula A = -R₂/R₁:</p>
+                <p>-10 = -R₂/10k → R₂ = 100 kΩ</p>
+                <p><strong>Risultato:</strong> R₁ = 10 kΩ, R₂ = 100 k
