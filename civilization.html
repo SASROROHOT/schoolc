@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civilization — Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --uk-red: #CF142B;
+    --uk-blue: #00247D;
+    --uk-light: #EEF2FF;
+    --ie-green: #169B62;
+    --ie-orange: #FF883E;
+    --ie-light: #F0FDF4;
+    --us-red: #B22234;
+    --us-blue: #3C3B6E;
+    --us-light: #FFF5F5;
+    --cream: #FDFAF5;
+    --dark: #1a1a2e;
+    --text: #2d2d2d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,36,125,0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(207,20,43,0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(22,155,98,0.25) 0%, transparent 50%);
+  }
+  .hero-flags {
+    display: flex;
+    gap: 2rem;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    position: relative;
+    animation: floatIn 1s ease-out both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    color: white;
+    line-height: 0.9;
+    position: relative;
+    letter-spacing: -0.02em;
+    animation: floatIn 1s ease-out 0.2s both;
+  }
+  .hero h1 span {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+    display: block;
+    font-style: italic;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.6);
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    position: relative;
+    animation: floatIn 1s ease-out 0.4s both;
+  }
+  .nav-dots {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    position: relative;
+    animation: floatIn 1s ease-out 0.6s both;
+  }
+  .nav-btn {
+    padding: 0.8rem 2rem;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+  .nav-btn.uk { border-color: var(--uk-red); }
+  .nav-btn.uk:hover { background: var(--uk-red); }
+  .nav-btn.ie { border-color: var(--ie-green); }
+  .nav-btn.ie:hover { background: var(--ie-green); }
+  .nav-btn.us { border-color: var(--us-red); }
+  .nav-btn.us:hover { background: var(--us-red); }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  .country-section {
+    padding: 6rem 2rem;
+    position: relative;
+  }
+  .country-section.uk { background: white; }
+  .country-section.ie { background: #F7FDF9; }
+  .country-section.us { background: #FFF8F8; }
+
+  .section-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid;
+  }
+  .uk .section-header { border-color: var(--uk-red); }
+  .ie .section-header { border-color: var(--ie-green); }
+  .us .section-header { border-color: var(--us-red); }
+
+  .section-flag { font-size: 4rem; line-height: 1; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+  }
+  .uk .section-title { color: var(--uk-blue); }
+  .ie .section-title { color: var(--ie-green); }
+  .us .section-title { color: var(--us-blue); }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #888;
+    margin-bottom: 0.3rem;
+  }
+
+  /* FACTS GRID */
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .fact-card {
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid;
+    transition: transform 0.2s;
+  }
+  .fact-card:hover { transform: translateY(-3px); }
+  .uk .fact-card { background: var(--uk-light); border-color: rgba(0,36,125,0.1); }
+  .ie .fact-card { background: var(--ie-light); border-color: rgba(22,155,98,0.15); }
+  .us .fact-card { background: var(--us-light); border-color: rgba(178,34,52,0.1); }
+  .fact-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    color: #999;
+    margin-bottom: 0.3rem;
+  }
+  .fact-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* CONTENT */
+  .content-block {
+    margin-bottom: 2.5rem;
+  }
+  .content-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .uk .content-block h3 { color: var(--uk-blue); }
+  .ie .content-block h3 { color: var(--ie-green); }
+  .us .content-block h3 { color: var(--us-blue); }
+  .content-block p {
+    line-height: 1.8;
+    color: #444;
+    font-size: 0.97rem;
+  }
+
+  .highlight-box {
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    border-left: 4px solid;
+  }
+  .uk .highlight-box { background: var(--uk-light); border-color: var(--uk-blue); }
+  .ie .highlight-box { background: var(--ie-light); border-color: var(--ie-green); }
+  .us .highlight-box { background: var(--us-light); border-color: var(--us-red); }
+  .highlight-box p { color: #333; font-weight: 400; }
+
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .uk .stat-pill { background: var(--uk-blue); color: white; }
+  .ie .stat-pill { background: var(--ie-green); color: white; }
+  .us .stat-pill { background: var(--us-blue); color: white; }
+
+  /* FLASHCARDS */
+  .flashcards-section {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid #eee;
+  }
+  .flashcards-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .uk .flashcards-title { color: var(--uk-red); }
+  .ie .flashcards-title { color: var(--ie-orange); }
+  .us .flashcards-title { color: var(--us-red); }
+  .flashcards-subtitle {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .flashcard {
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .flashcard-front {
+    border: 2px solid;
+  }
+  .uk .flashcard-front { background: white; border-color: rgba(0,36,125,0.15); }
+  .ie .flashcard-front { background: white; border-color: rgba(22,155,98,0.15); }
+  .us .flashcard-front { background: white; border-color: rgba(60,59,110,0.15); }
+
+  .flashcard-back {
+    transform: rotateY(180deg);
+  }
+  .uk .flashcard-back { background: var(--uk-blue); color: white; }
+  .ie .flashcard-back { background: var(--ie-green); color: white; }
+  .us .flashcard-back { background: var(--us-blue); color: white; }
+
+  .card-tag {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    opacity: 0.6;
+  }
+  .flashcard-front .card-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
+  }
+  .flashcard-back .card-answer {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.95);
+  }
+  .flip-hint {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.4;
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    transition: background 0.3s;
+  }
+  .uk .progress-dot.done { background: var(--uk-blue); }
+  .ie .progress-dot.done { background: var(--ie-green); }
+  .us .progress-dot.done { background: var(--us-red); }
+
+  .score-display {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+  }
+  .score-display span {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* RESET BTN */
+  .reset-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .uk .reset-btn { background: var(--uk-red); color: white; }
+  .ie .reset-btn { background: var(--ie-orange); color: white; }
+  .us .reset-btn { background: var(--us-red); color: white; }
+  .reset-btn:hover { opacity: 0.85; transform: scale(0.98); }
+
+  /* STICKY NAV */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253,250,245,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #eee;
+    padding: 0.8rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .sticky-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    transition: all 0.2s;
+  }
+  .sticky-link.uk { color: var(--uk-blue); }
+  .sticky-link.uk:hover { background: var(--uk-blue); color: white; }
+  .sticky-link.ie { color: var(--ie-green); }
+  .sticky-link.ie:hover { background: var(--ie-green); color: white; }
+  .sticky-link.us { color: var(--us-blue); }
+  .sticky-link.us:hover { background: var(--us-blue); color: white; }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 4px;
+    background: linear-gradient(to right, var(--uk-red), var(--uk-blue));
+  }
+  .section-divider.ie { background: linear-gradient(to right, var(--ie-green), var(--ie-orange)); }
+  .section-divider.us { background: linear-gradient(to right, var(--us-blue), var(--us-red)); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-flags">🇬🇧 🇮🇪 🇺🇸</div>
+  <h1>CIVILIZATION<span>Study Guide</span></h1>
+  <p>Studia il contenuto, poi mettiti alla prova con le flashcard</p>
+  <div class="nav-dots">
+    <a href="#uk" class="nav-btn uk">🇬🇧 United Kingdom</a>
+    <a href="#ie" class="nav-btn ie">🇮🇪 Ireland</a>
+    <a href="#us" class="nav-btn us">🇺🇸 United States</a>
+  </div>
+</section>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a href="#uk" class="sticky-link uk">🇬🇧 United Kingdom</a>
+  <a href="#ie" class="sticky-link ie">🇮🇪 Ireland / Éire</a>
+  <a href="#us" class="sticky-link us">🇺🇸 United States</a>
+</nav>
+
+<!-- ===== UK SECTION ===== -->
+<div class="section-divider"></div>
+<section class="country-section uk" id="uk">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-flag">🇬🇧</div>
+      <div>
+        <div class="section-subtitle">Civilization — Chapter</div>
+        <h2 class="section-title">The United<br>Kingdom</h2>
+      </div>
+    </div>
+
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-label">Full Name</div>
+        <div class="fact-value">United Kingdom of Great Britain and Northern Ireland</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Surface Area</div>
+        <div class="fact-value">243,610 sq km</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Population</div>
+        <div class="fact-value">~66.7 million</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Capital</div>
+        <div class="fact-value">London</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Government</div>
+        <div class="fact-value">Constitutional Monarchy</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Currency</div>
+        <div class="fact-value">Pound Sterling (GBP)</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Flag</div>
+        <div class="fact-value">Union Jack (Union Flag)</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Countries in the UK</div>
+        <div class="fact-value">England, Scotland, Wales, Northern Ireland</div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Geography & Climate</h3>
+      <p>The UK is located in north-western Europe, bordered by the English Channel to the south, the North Sea to the east, and the Irish Sea and the Atlantic Ocean to the west. It includes Great Britain, Northern Ireland, thousands of smaller islands, the Channel Islands, and the Isle of Man, plus overseas territories (e.g. Bermuda, Cayman Islands). The climate is a <strong>temperate maritime climate</strong> — temperatures rarely drop below -11°C or rise above +35°C, with plentiful rainfall all year round.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Economy</h3>
+      <p>The UK has the world's <strong>fifth largest economy</strong>. Brexit — the UK's decision to leave the EU following a June 2016 referendum (51.89% voted to leave) — has had a significant impact. The UK formally left the EU in March 2019.</p>
+      <div class="highlight-box">
+        <p><strong>Primary sector</strong>: About 2% of the workforce. Key crops: wheat, barley, oats, sugar beets, potatoes, rapeseed. Livestock: cattle, sheep, pigs and poultry.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Secondary sector</strong>: Declining since the 1970s when manufacturing contributed up to 25% of GDP. Today it generates employment for 18.36% of the workforce and ranks the UK as the 11th manufacturing nation. Key industries: automotive (Aston Martin, Bentley, Jaguar, Land Rover, Rolls-Royce), aerospace, pharmaceuticals, food & drink, tobacco, textiles, fashion, printing & publishing.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Tertiary sector</strong>: Employs over 82% of the workforce and contributes 70% of GDP. London is the financial hub since the Middle Ages — banking, insurance, forex, and bonds. Tourism: 42 million visitors in 2017. Transport: 49,904 km of roads, 3,497 km of motorways, 213,750 km of paved roads. Railways cover over 17,000 km (34% electrified). 40+ commercial airports.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>The Four Sectors of the Economy</h3>
+      <p>A country's economy is divided into: <strong>Primary sector</strong> (raw materials: mining, farming, fishing), <strong>Secondary sector</strong> (manufacturing: cars, steel), <strong>Tertiary sector</strong> (services: banking, insurance, restaurants, transport, education), and <strong>Quaternary sector</strong> (the R&D part of the tertiary sector: IT).</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Ethnic Groups</h3>
+      <div class="stat-row">
+        <span class="stat-pill">87.1% White</span>
+        <span class="stat-pill">7% Asian</span>
+        <span class="stat-pill">3% Black</span>
+        <span class="stat-pill">2% Mixed</span>
+        <span class="stat-pill">0.9% Others</span>
+      </div>
+    </div>
+
+    <!-- UK FLASHCARDS -->
+    <div class="flashcards-section">
+      <h3 class="flashcards-title">🃏 Flashcard Quiz — United Kingdom</h3>
+      <p class="flashcards-subtitle">Clicca su ogni carta per vedere la risposta</p>
+      <div class="progress-bar" id="uk-progress"></div>
+      <div class="score-display">Risposte viste: <span id="uk-score">0</span> / 10</div>
+      <div class="cards-grid" id="uk-cards"></div>
+      <button class="reset-btn" onclick="resetCards('uk')">↺ Ricomincia</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IRELAND SECTION ===== -->
+<div class="section-divider ie"></div>
+<section class="country-section ie" id="ie">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-flag">🇮🇪</div>
+      <div>
+        <div class="section-subtitle">Civilization — Chapter</div>
+        <h2 class="section-title">Republic of<br>Ireland — Éire</h2>
+      </div>
+    </div>
+
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-label">Full Name</div>
+        <div class="fact-value">Republic of Ireland / Éire in Gaelic</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Surface Area</div>
+        <div class="fact-value">70,282 km²</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Population</div>
+        <div class="fact-value">4,803,748</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Capital</div>
+        <div class="fact-value">Dublin</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Government</div>
+        <div class="fact-value">Parliamentary Republic</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Currency</div>
+        <div class="fact-value">Euro</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Language</div>
+        <div class="fact-value">English + Irish Gaelic</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Flag</div>
+        <div class="fact-value">The Irish Tricolour</div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Geography & Climate</h3>
+      <p>Ireland occupies five-sixths of the westernmost major island of the British Isles, separated from Great Britain by the <strong>Irish Sea</strong>. It is divided into 26 counties (the other 6 make up Northern Ireland). The island's main features include low central plains surrounded by coastal mountains. The highest peak is <strong>Carrauntoohil</strong> (Corran Tuathail in Irish), at 1,041 metres. The island is bisected by the river <strong>Shannon</strong> (360.5 km / 224 miles), Ireland's longest river.</p>
+      <div class="highlight-box">
+        <p>Ireland is known as the <strong>"Emerald Isle"</strong> because its mild temperatures and plentiful rainfall create perfect conditions for lush, green landscapes. The southwest coast is particularly mild in winter. The largest lake is <strong>Lough Corrib</strong>.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>History & Emigration</h3>
+      <p>No country in Europe has been as affected by emigration as Ireland. The <strong>Great Famine of 1845–1855</strong> caused by a blight on potato crops left millions without food. Emigration peaked then, with nearly as many people living outside Ireland as within it — mostly to North America. Ireland remained the poor man of north-west Europe for most of the 20th century.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>The Celtic Tiger</h3>
+      <p>In the 1990s, the Irish economy exploded into life. Employment almost doubled between 1993 and 2007. Strong economic growth led Ireland to create a single market in Europe, attracting foreign companies with favourable taxation and a highly educated workforce. Ireland became the so-called <strong>"Celtic Tiger."</strong> However, the global recession hit in 2008, and Ireland had to request financial assistance from the European Commission, the ECB and the IMF.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Economy Today</h3>
+      <p>Ireland's economy has recovered strongly. It is a <strong>knowledge economy</strong> focused on services like high-tech, life sciences, and financial services. Main trading partners: USA, UK, Germany, France, Spain, Netherlands. Key products: organic chemicals, medical & pharmaceutical products, computers.</p>
+      <div class="highlight-box">
+        <p><strong>Agriculture</strong>: 2% of Irish GDP. 5 million of 7 million hectares are dedicated to agriculture. Main products: beef, dairy, barley, potatoes, wheat, mushrooms. The <strong>fishing industry</strong> employs over 11,000 people.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Tourism</strong>: Over 5 million visitors in 2018. Built around the Irish people, culture, and the physical beauty of the landscape.</p>
+      </div>
+    </div>
+
+    <!-- IRELAND FLASHCARDS -->
+    <div class="flashcards-section">
+      <h3 class="flashcards-title">🃏 Flashcard Quiz — Ireland</h3>
+      <p class="flashcards-subtitle">Clicca su ogni carta per vedere la risposta</p>
+      <div class="progress-bar" id="ie-progress"></div>
+      <div class="score-display">Risposte viste: <span id="ie-score">0</span> / 10</div>
+      <div class="cards-grid" id="ie-cards"></div>
+      <button class="reset-btn" onclick="resetCards('ie')">↺ Ricomincia</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USA SECTION ===== -->
+<div class="section-divider us"></div>
+<section class="country-section us" id="us">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-flag">🇺🇸</div>
+      <div>
+        <div class="section-subtitle">Civilization — Chapter</div>
+        <h2 class="section-title">The United<br>States</h2>
+      </div>
+    </div>
+
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-label">Full Name</div>
+        <div class="fact-value">The United States of America</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Surface Area</div>
+        <div class="fact-value">9,629,091 sq km (incl. Alaska & Hawaii)</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Population</div>
+        <div class="fact-value">325.89 million</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Capital</div>
+        <div class="fact-value">Washington D.C.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Government</div>
+        <div class="fact-value">Constitution-based Federal Republic</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Currency</div>
+        <div class="fact-value">US Dollar (USD)</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Number of States</div>
+        <div class="fact-value">50 states + federal district</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Language</div>
+        <div class="fact-value">No official language (English most common)</div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Geography & Climate</h3>
+      <p>Located in the western hemisphere in North America, the US consists of <strong>50 states</strong> (48 conterminous + Alaska and Hawaii) and a federal district (Washington D.C.). The conterminous states stretch more than 4,500 km from east to west and more than 2,500 km from north to south. Bordered by Canada to the north, the Atlantic Ocean to the east, the Gulf of Mexico and Mexico to the south, and the Pacific Ocean to the west. It has a <strong>continental climate</strong> — cold winters and hot summers — though varied by latitude and distance from the sea.</p>
+      <div class="highlight-box">
+        <p>The US flag (Stars and Stripes) consists of a blue rectangle in the canton representing the 50 states, and 13 horizontal red-and-white stripes representing the 13 British colonies that declared independence.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Ethnic Groups</h3>
+      <div class="stat-row">
+        <span class="stat-pill">58.2% White (104,916)</span>
+        <span class="stat-pill">38.1% Black (68,727)</span>
+        <span class="stat-pill">2.3% Asian (4,104)</span>
+        <span class="stat-pill">1.5% Native American (2,670)</span>
+      </div>
+      <p style="margin-top:1rem;">Most spoken languages at home (over 1 million speakers): English (85%), Spanish (12%), Chinese (0.9%), Tagalog (0.5%), Vietnamese (0.4%), French (0.4%), German (0.4%), Korean (0.4%).</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Economy</h3>
+      <p>The US is the world's <strong>third-largest economy</strong> and operates as a <strong>mixed economy</strong> — a free market economy in consumer goods and business services, but with government regulation to protect the public good.</p>
+      <div class="highlight-box">
+        <p><strong>Agriculture</strong>: 827,000+ people employed. Farms decreased from 2.16 million in 2000 to 2.06 million in 2017. Particularly concentrated in the <strong>Great Plains</strong> and the <strong>Corn Belt</strong> around the Great Lakes. Main crops: corn, wheat, soybeans, tobacco. Most common farm animals: cattle, pigs, hens. California produces a majority of fruits, vegetables, and nuts.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Manufacturing</strong>: Central to the economy. US factories produce twice as many goods as in 1984 with one-third fewer workers. Top manufactured products: refined petroleum products (petrol, jet fuel, liquefied refinery gases), pharmaceuticals, airplanes and automobiles, iron and steel. Technology & new work organization has revolutionized the factory since the 1980s.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Consumer Goods</strong>: Appliances, tyres, furniture, gifts, school and office products, jewellery, and sporting goods — sold at mono/multi-brand stores or large retail shops. Top global brands: Apple, Google, IBM, McDonald's, Microsoft, Amazon.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Tourism</strong>: Accounts for 8.8% of GDP, employing 7.9 million people. Top destinations: New York, San Francisco, Washington, Philadelphia, Las Vegas, Miami. Natural wonders include national parks, the beaches of California and Florida, the Mississippi and its tributaries, and the Walt Disney theme parks.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Government Structure</h3>
+      <p>The US has a constitution-based federal republic with three branches: the <strong>executive</strong> (President), the <strong>legislative</strong> (Congress: Senate + House of Representatives), and the <strong>judiciary</strong> (Supreme Court).</p>
+    </div>
+
+    <!-- US FLASHCARDS -->
+    <div class="flashcards-section">
+      <h3 class="flashcards-title">🃏 Flashcard Quiz — United States</h3>
+      <p class="flashcards-subtitle">Clicca su ogni carta per vedere la risposta</p>
+      <div class="progress-bar" id="us-progress"></div>
+      <div class="score-display">Risposte viste: <span id="us-score">0</span> / 10</div>
+      <div class="cards-grid" id="us-cards"></div>
+      <button class="reset-btn" onclick="resetCards('us')">↺ Ricomincia</button>
+    </div>
+  </div>
+</section>
+
+<script>
+const cardData = {
+  uk: [
+    { q: "How many countries make up the United Kingdom?", a: "Four: England, Scotland, Wales, and Northern Ireland (also known as Ulster)." },
+    { q: "What type of government does the UK have?", a: "A constitutional monarchy." },
+    { q: "What happened on June 23, 2016?", a: "The UK voted in a referendum to leave the EU. 51.89% voted for Brexit. The UK officially left in March 2019." },
+    { q: "Which sector employs over 82% of the UK workforce?", a: "The tertiary (service) sector, which contributes 70% of the country's GDP." },
+    { q: "What is the UK's rank in the world economy?", a: "The UK has the world's fifth largest economy." },
+    { q: "Name 3 premium car brands manufactured in the UK.", a: "Aston Martin, Bentley, Jaguar, Land Rover, and Rolls-Royce." },
+    { q: "What is the dominant ethnic group in the UK and what percentage?", a: "White, at 87.1% of the population." },
+    { q: "What type of climate does the UK have?", a: "A temperate maritime climate: mild temperatures and plentiful rainfall all year round." },
+    { q: "What are the four economic sectors?", a: "Primary (raw materials), Secondary (manufacturing), Tertiary (services), Quaternary (R&D/IT)." },
+    { q: "Why is the secondary sector declining in the UK?", a: "Because robots are taking over factory jobs, reducing the need for human workers." }
+  ],
+  ie: [
+    { q: "What are the two official languages of Ireland?", a: "English (generally used) and Irish Gaelic (spoken mainly in areas along the western coast)." },
+    { q: "What caused mass emigration from Ireland in the 1840s–1855?", a: "A blight destroyed the potato crops, causing the Great Famine. Millions had no food and were forced to emigrate." },
+    { q: "What is the 'Celtic Tiger'?", a: "The term for Ireland's economic boom between the mid-1990s and 2007, when employment nearly doubled." },
+    { q: "What happened to Ireland's economy in 2008?", a: "The global recession hit and Ireland had to request financial assistance from the European Commission, the ECB and the IMF." },
+    { q: "What kind of economy does Ireland have today?", a: "A knowledge economy focused on high-tech, life sciences, and financial services." },
+    { q: "What is Ireland's highest peak?", a: "Carrauntoohil (Corran Tuathail), at 1,041 metres (3,415 ft) above sea level." },
+    { q: "What is the longest river in Ireland?", a: "The river Shannon, at 360.5 km (224 miles)." },
+    { q: "Why is Ireland called the 'Emerald Isle'?", a: "Because its mild climate and plentiful rainfall create perfect conditions for lush, green landscapes." },
+    { q: "What percentage of Irish GDP comes from agriculture?", a: "Only 2%. The fishing industry employs over 11,000 people." },
+    { q: "What is Ireland's currency and type of government?", a: "The Euro is the currency, and Ireland has a parliamentary republic government." }
+  ],
+  us: [
+    { q: "How many states does the US consist of?", a: "50 states (48 conterminous + Alaska and Hawaii) plus a federal district (Washington D.C.)." },
+    { q: "What type of economy does the US have?", a: "A mixed economy — free market in consumer goods and services, but with government regulation to protect all." },
+    { q: "What does the US flag symbolise?", a: "The 50 stars represent the 50 states; the 13 red and white stripes represent the original 13 British colonies." },
+    { q: "What are the top manufactured products in the US?", a: "Refined petroleum products, pharmaceuticals, airplanes and automobiles, iron and steel." },
+    { q: "What is the 'Corn Belt'?", a: "The region around the Great Lakes where farming is particularly concentrated. Main crops: corn, wheat, soybeans, tobacco." },
+    { q: "How has technology changed US manufacturing since the 1980s?", a: "US factories now produce twice as many goods as in 1984 with one-third fewer workers, due to automation." },
+    { q: "What percentage of GDP does tourism account for in the US?", a: "Tourism accounts for 8.8% of the GDP and employs 7.9 million people." },
+    { q: "What are the three branches of the US government?", a: "Executive (President), Legislative (Congress: Senate + House of Representatives), and Judiciary (Supreme Court)." },
+    { q: "Which are the five most valuable global brands from the US?", a: "Apple, Google, IBM, McDonald's, and Microsoft. Amazon is the world's largest online retailer." },
+    { q: "What are the main ethnic groups in the US?", a: "58.2% White (~105K), 38.1% Black (~69K), 2.3% Asian (~4K), 1.5% Native American (~2.7K)." }
+  ]
+};
+
+const flippedCards = { uk: new Set(), ie: new Set(), us: new Set() };
+
+function buildCards(country) {
+  const container = document.getElementById(`${country}-cards`);
+  const progressEl = document.getElementById(`${country}-progress`);
+  container.innerHTML = '';
+  progressEl.innerHTML = '';
+  flippedCards[country].clear();
+  document.getElementById(`${country}-score`).textContent = '0';
+
+  // Build progress dots
+  cardData[country].forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    dot.id = `${country}-dot-${i}`;
+    progressEl.appendChild(dot);
+  });
+
+  cardData[country].forEach((card, i) => {
+    const fc = document.createElement('div');
+    fc.className = `flashcard ${country}`;
+    fc.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="card-tag">Domanda ${i + 1}</div>
+          <div class="card-question">${card.q}</div>
+          <div class="flip-hint">Tocca per risposta →</div>
+        </div>
+        <div class="flashcard-back">
+          <div class="card-tag">Risposta</div>
+          <div class="card-answer">${card.a}</div>
+        </div>
+      </div>
+    `;
+    fc.addEventListener('click', () => {
+      fc.classList.toggle('flipped');
+      if (fc.classList.contains('flipped')) {
+        if (!flippedCards[country].has(i)) {
+          flippedCards[country].add(i);
+          document.getElementById(`${country}-dot-${i}`).classList.add('done');
+          document.getElementById(`${country}-score`).textContent = flippedCards[country].size;
+        }
+      }
+    });
+    container.appendChild(fc);
+  });
+}
+
+function resetCards(country) {
+  buildCards(country);
+}
+
+// Initialize
+['uk', 'ie', 'us'].forEach(buildCards);
+</script>
+</body>
+</html>
