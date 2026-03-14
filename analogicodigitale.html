@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elettronica Digitale — Guida Verifica</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #080c18;
+    --card:   #111827;
+    --card2:  #161f33;
+    --accent: #00e5ff;
+    --a2:     #ff6b35;
+    --a3:     #7c3aed;
+    --green:  #00ff88;
+    --text:   #dde4f0;
+    --muted:  #7a8499;
+    --border: rgba(0,229,255,0.13);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Syne', sans-serif; line-height: 1.7; overflow-x: hidden;
+  }
+  body::before {
+    content:''; position:fixed; inset:0; z-index:0;
+    background-image:
+      linear-gradient(rgba(0,229,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,.025) 1px, transparent 1px);
+    background-size: 44px 44px; pointer-events:none;
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    background:rgba(8,12,24,.93); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; padding:.75rem 2rem;
+  }
+  .nav-brand { font-family:'Space Mono',monospace; font-size:.85rem; color:var(--accent); }
+  .nav-links { display:flex; gap:1.2rem; list-style:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:.78rem; font-weight:600; letter-spacing:.05em; transition:color .2s; }
+  .nav-links a:hover { color:var(--accent); }
+  @media(max-width:640px){ .nav-links{display:none} }
+
+  /* HERO */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center;
+    padding:6rem 1.5rem 4rem; position:relative; z-index:1;
+    background:radial-gradient(ellipse 80% 55% at 50% 0%, rgba(0,229,255,.07) 0%, transparent 70%);
+  }
+  .badge {
+    display:inline-block; margin-bottom:2rem;
+    background:rgba(0,229,255,.09); border:1px solid var(--accent);
+    color:var(--accent); font-family:'Space Mono',monospace;
+    font-size:.72rem; padding:.35rem 1rem; border-radius:2px;
+    letter-spacing:.15em; text-transform:uppercase; animation:up .6s ease both;
+  }
+  .hero h1 { font-size:clamp(2.4rem,7vw,5.5rem); font-weight:800; line-height:1.05; margin-bottom:1.2rem; animation:up .6s .1s ease both; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .hero-sub { color:var(--muted); font-family:'Space Mono',monospace; font-size:.9rem; max-width:520px; margin-bottom:3rem; animation:up .6s .2s ease both; }
+  .pills { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; animation:up .6s .3s ease both; }
+  .pills a { text-decoration:none; background:var(--card); border:1px solid var(--border); color:var(--text); padding:.5rem 1.1rem; border-radius:2px; font-size:.8rem; font-weight:600; letter-spacing:.04em; transition:all .2s; }
+  .pills a:hover { background:var(--accent); color:var(--bg); border-color:var(--accent); }
+
+  /* LAYOUT */
+  .wrap { max-width:1060px; margin:0 auto; padding:0 1.5rem; position:relative; z-index:1; }
+  .sec { padding:5.5rem 0; border-top:1px solid var(--border); }
+  .sec-hd { display:flex; align-items:flex-start; gap:1.4rem; margin-bottom:3rem; }
+  .sec-num { font-family:'Space Mono',monospace; font-size:.72rem; color:var(--accent); background:rgba(0,229,255,.08); border:1px solid var(--accent); padding:.35rem .65rem; border-radius:2px; white-space:nowrap; margin-top:.3rem; }
+  .sec-title { font-size:clamp(1.7rem,4vw,2.7rem); font-weight:800; line-height:1.1; }
+  .sec-title em { font-style:normal; color:var(--accent); }
+
+  /* CARD */
+  .card { background:var(--card); border:1px solid var(--border); border-radius:4px; padding:1.8rem; margin-bottom:1.5rem; position:relative; overflow:hidden; transition:border-color .25s,box-shadow .25s; }
+  .card:hover { border-color:rgba(0,229,255,.35); box-shadow:0 0 28px rgba(0,229,255,.12); }
+  .card::before { content:''; position:absolute; top:0;left:0;right:0;height:2px; background:linear-gradient(90deg,var(--accent),var(--a3),transparent); }
+  .card.o::before { background:linear-gradient(90deg,var(--a2),#ff9f35,transparent); }
+  .card.p::before { background:linear-gradient(90deg,var(--a3),#a855f7,transparent); }
+  .card.g::before { background:linear-gradient(90deg,var(--green),#00ccff,transparent); }
+  .card h3 { font-size:1.15rem; font-weight:700; margin-bottom:.9rem; color:var(--accent); }
+  .card.o h3{color:var(--a2)} .card.p h3{color:#a855f7} .card.g h3{color:var(--green)}
+
+  /* GRID */
+  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+  .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
+  @media(max-width:720px){ .g2,.g3{grid-template-columns:1fr} }
+
+  /* FORMULA */
+  .f { background:rgba(0,229,255,.05); border:1px solid rgba(0,229,255,.25); border-left:3px solid var(--accent); padding:1rem 1.3rem; border-radius:0 4px 4px 0; font-family:'Space Mono',monospace; font-size:.9rem; color:var(--accent); margin:.9rem 0; }
+  .f.o{background:rgba(255,107,53,.05);border-color:rgba(255,107,53,.25);border-left-color:var(--a2);color:var(--a2)}
+  .f.g{background:rgba(0,255,136,.05);border-color:rgba(0,255,136,.25);border-left-color:var(--green);color:var(--green)}
+
+  /* TABLE */
+  table { width:100%; border-collapse:collapse; font-family:'Space Mono',monospace; font-size:.82rem; margin:1.2rem 0; }
+  th { background:rgba(0,229,255,.09); color:var(--accent); padding:.65rem .9rem; text-align:center; border:1px solid var(--border); font-weight:700; letter-spacing:.04em; }
+  td { padding:.6rem .9rem; text-align:center; border:1px solid var(--border); }
+  tr:nth-child(even) td { background:rgba(255,255,255,.02); }
+  tr:hover td { background:rgba(0,229,255,.04); }
+
+  /* STEPS */
+  .steps{list-style:none;margin:.8rem 0}
+  .steps li{display:flex;gap:.9rem;padding:.8rem 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start}
+  .steps li:last-child{border:none}
+  .sn{background:var(--accent);color:var(--bg);font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;width:26px;height:26px;border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem}
+  .steps.o .sn{background:var(--a2)} .steps.p .sn{background:#a855f7} .steps.g .sn{background:var(--green);color:#080c18}
+
+  /* HIGHLIGHT */
+  .hl{background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(124,58,237,.06));border:1px solid rgba(0,229,255,.18);border-radius:4px;padding:1.3rem;margin:1.2rem 0}
+  .hl strong{color:var(--accent)}
+
+  /* TIMING */
+  .timing{display:flex;height:38px;gap:2px;border-radius:2px;overflow:hidden;margin:1rem 0}
+  .ts{flex:1;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700}
+  .ts.s{background:rgba(0,229,255,.25);color:var(--accent);border:1px solid var(--accent)}
+  .ts.h{background:rgba(255,107,53,.25);color:var(--a2);border:1px solid var(--a2)}
+
+  /* R NETWORK */
+  .rnet{display:flex;gap:.9rem;flex-wrap:wrap;margin:1.2rem 0}
+  .rnode{flex:1;min-width:110px;background:var(--card2);border:1px solid var(--border);border-radius:4px;padding:.9rem;text-align:center}
+  .rnode .rl{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:.4rem}
+  .rnode .rv{font-family:'Space Mono',monospace;font-size:1rem;font-weight:700;color:var(--a2)}
+  .rnode .rw{font-size:.72rem;color:var(--text);margin-top:.2rem}
+
+  code{background:rgba(0,229,255,.08);padding:.1em .4em;border-radius:2px;font-family:'Space Mono',monospace;font-size:.83em;color:var(--accent)}
+  p{margin-bottom:.7rem}
+
+  /* ══════════════════════════
+     IMAGE PLACEHOLDER
+  ══════════════════════════ */
+  .img-slot {
+    width: 100%;
+    min-height: 260px;
+    background: var(--card2);
+    border: 2px dashed rgba(0,229,255,0.25);
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .img-slot-icon { font-size: 2rem; opacity: .4; }
+  .img-slot-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .72rem;
+    color: var(--muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  /* caption bar under the slot */
+  .img-caption {
+    display: flex; align-items: center; gap: .5rem;
+    padding: .5rem .9rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    margin-top: -1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: .72rem;
+    color: var(--muted);
+  }
+  .img-caption::before { content:'▶'; color:var(--accent); font-size:.6rem; }
+
+  /* FOOTER */
+  footer{padding:3.5rem 0 2.5rem;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:.78rem;position:relative;z-index:1}
+  footer strong{color:var(--accent)}
+
+  @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .rev{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+  .rev.vis{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">⚡ ELETTRONICA DIGITALE</div>
+  <ul class="nav-links">
+    <li><a href="#adc1">ADC 1-bit</a></li>
+    <li><a href="#adc2">ADC 2-bit</a></li>
+    <li><a href="#sh">S&amp;H</a></li>
+    <li><a href="#dacr">DAC-R</a></li>
+    <li><a href="#dacrel">DAC Relè</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">Prof. Messina · Guida alla Verifica</div>
+  <h1>Elettronica<br><em>Digitale</em></h1>
+  <p class="hero-sub">ADC Flash · Sample &amp; Hold · DAC a R Pesate · DAC a Relè</p>
+  <div class="pills">
+    <a href="#adc1">ADC Flash 1-bit</a>
+    <a href="#adc2">ADC Flash 2-bit</a>
+    <a href="#sh">Sample &amp; Hold</a>
+    <a href="#dacr">DAC a R Pesate</a>
+    <a href="#dacrel">DAC a Relè</a>
+  </div>
+</section>
+
+<!-- ══════════════ ADC 1-BIT ══════════════ -->
+<section class="sec" id="adc1">
+<div class="wrap">
+  <div class="sec-hd rev">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">ADC Flash <em>1-bit</em></h2>
+  </div>
+
+  <!-- ↓↓ METTI QUI LA TUA IMMAGINE ↓↓ -->
+  <div class="rev">
+    <div class="img-slot" id="img-adc1">
+      <img src="img0.jpeg" alt="" style="scale: 0.76;">
+    </div>
+    <div class="img-caption">Schema circuito ADC Flash 1-bit</div>
+  </div>
+
+  <div class="g2 rev">
+    <div>
+      <div class="card">
+        <h3>Cos'è un ADC Flash?</h3>
+        <p>Un <strong>ADC (Analog-to-Digital Converter)</strong> converte un segnale analogico continuo in un numero digitale. Il tipo <em>Flash</em> è il più veloce: tutti i confronti avvengono <strong>simultaneamente in parallelo</strong>, in un solo colpo di clock.</p>
+        <p>La versione a <strong>1 bit</strong> è la più semplice: un unico comparatore confronta <code>V<sub>in</sub></code> con <code>V<sub>ref</sub></code> e produce 1 oppure 0.</p>
+      </div>
+      <div class="card o">
+        <h3>Il Comparatore</h3>
+        <p>È un op-amp in configurazione <strong>open-loop</strong> (senza retroazione). Il guadagno enorme porta l'uscita a saturazione anche per differenze minime tra i due ingressi:</p>
+        <ul class="steps o">
+          <li><span class="sn">1</span><span>Se <code>V<sub>in</sub> &gt; V<sub>ref</sub></code> → uscita = <strong>HIGH (1)</strong></span></li>
+          <li><span class="sn">0</span><span>Se <code>V<sub>in</sub> &lt; V<sub>ref</sub></code> → uscita = <strong>LOW (0)</strong></span></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card g">
+        <h3>Schema a Blocchi</h3>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;text-align:center;font-family:'Space Mono',monospace;font-size:.83rem;margin:.8rem 0;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap;">
+            <div style="border:1px solid var(--a2);padding:.45rem .9rem;border-radius:2px;color:var(--a2);">V<sub>in</sub></div>
+            <span style="color:var(--muted);">→</span>
+            <div style="border:2px solid var(--accent);padding:.7rem 1.3rem;border-radius:2px;color:var(--accent);background:rgba(0,229,255,.07);">COMPARATORE</div>
+            <span style="color:var(--muted);">→</span>
+            <div style="border:1px solid var(--green);padding:.45rem .9rem;border-radius:2px;color:var(--green);">D<sub>out</sub><br><small>(1 bit)</small></div>
+          </div>
+          <div style="margin-top:.9rem;border-top:1px solid var(--border);padding-top:.9rem;color:var(--muted);font-size:.72rem;">V<sub>ref</sub> → ingresso invertente (−)</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Tabella di Verità</h3>
+        <table>
+          <tr><th>V<sub>in</sub></th><th>Confronto</th><th>D<sub>out</sub></th></tr>
+          <tr><td>&gt; V<sub>ref</sub></td><td>V+ &gt; V−</td><td style="color:var(--green);">1</td></tr>
+          <tr><td>&lt; V<sub>ref</sub></td><td>V+ &lt; V−</td><td style="color:var(--a2);">0</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Risoluzione</h3>
+        <div class="f">Risoluzione = V<sub>FS</sub> / 2<sup>n</sup> = V<sub>FS</sub> / 2</div>
+        <p style="font-size:.85rem;color:var(--muted);">Con 1 bit e V<sub>FS</sub>=5V ogni livello vale <strong>2.5 V</strong>. Distinguiamo solo "sopra" o "sotto" la soglia.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ ADC 2-BIT ══════════════ -->
+<section class="sec" id="adc2">
+<div class="wrap">
+  <div class="sec-hd rev">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">ADC Flash <em>2-bit</em> + Rete Logica + myDAQ</h2>
+  </div>
+
+  <!-- ↓↓ METTI QUI LA TUA IMMAGINE ↓↓ -->
+  <div class="rev">
+    <div class="img-slot" id="img-adc2">
+      <img src="img2.jpeg" alt="">
+    </div>
+    <div class="img-caption">Schema Multisim ADC 2-bit — 3 comparatori LM358N, rete logica 74LS47N, display 7 segmenti</div>
+  </div>
+
+  <div class="g2 rev">
+    <div class="card">
+      <h3>Struttura: 3 Comparatori</h3>
+      <p>Un ADC flash a <strong>2 bit</strong> usa <strong>2<sup>n</sup>−1 = 3 comparatori</strong> (LM358N). Tutti ricevono lo stesso <code>V<sub>in</sub></code>, ma ognuno confronta con una soglia diversa generata da un partitore a 4 resistenze uguali su V<sub>cc</sub>=5V:</p>
+      <table>
+        <tr><th>Comparatore</th><th>Soglia V<sub>ref</sub></th></tr>
+        <tr><td>U1A (superiore)</td><td>3.75 V</td></tr>
+        <tr><td>U1B (medio)</td><td>2.50 V</td></tr>
+        <tr><td>U2A (inferiore)</td><td>1.25 V</td></tr>
+      </table>
+    </div>
+    <div class="card o">
+      <h3>Codice Termometro → Binario</h3>
+      <p>Le 3 uscite formano un <strong>codice termometro</strong>. La rete logica lo converte in 2 bit:</p>
+      <table>
+        <tr><th>V<sub>in</sub></th><th>C2 C1 C0</th><th>MSB LSB</th><th>Livello</th></tr>
+        <tr><td>0–1.25V</td><td>0 0 0</td><td style="color:var(--green);">0 0</td><td>0</td></tr>
+        <tr><td>1.25–2.5V</td><td>0 0 1</td><td style="color:var(--green);">0 1</td><td>1</td></tr>
+        <tr><td>2.5–3.75V</td><td>0 1 1</td><td style="color:var(--green);">1 0</td><td>2</td></tr>
+        <tr><td>3.75–5V</td><td>1 1 1</td><td style="color:var(--green);">1 1</td><td>3</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card p rev">
+    <h3>Equazioni Booleane della Rete Logica</h3>
+    <div class="g2">
+      <div>
+        <div class="f">MSB = C1</div>
+        <p style="font-size:.85rem;">L'MSB vale 1 quando almeno il comparatore mediano ha scattato.</p>
+      </div>
+      <div>
+        <div class="f">LSB = C0 ⊕ C1 &nbsp;(XOR)</div>
+        <p style="font-size:.85rem;">L'LSB vale 1 quando solo il comparatore inferiore ha scattato, o tutti e tre.</p>
+      </div>
+    </div>
+    <p style="margin-top:.5rem;">Il chip <strong>74LS47N</strong> (decoder BCD→7 segmenti) riceve MSB e LSB e pilota il display per mostrare 0, 1, 2 o 3. Le resistenze da <code>220Ω</code> proteggono i LED MSB1 e LSB1.</p>
+  </div>
+
+  <div class="g2 rev">
+    <div class="card g">
+      <h3>myDAQ — Acquisizione Reale</h3>
+      <ul class="steps g">
+        <li><span class="sn">1</span><span>Genera la tensione variabile <code>V<sub>in</sub></code> tramite le uscite analogiche</span></li>
+        <li><span class="sn">2</span><span>Fornisce l'alimentazione V+ / V− agli op-amp</span></li>
+        <li><span class="sn">3</span><span>Misura e visualizza le uscite digitali in tempo reale</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Risoluzione con 2 bit</h3>
+      <div class="f">Risoluzione = V<sub>FS</sub> / 2<sup>2</sup> = 5V / 4 = <strong>1.25 V</strong></div>
+      <p style="font-size:.85rem;">Con n=2 otteniamo 4 livelli. Ogni bit aggiuntivo dimezza il passo di quantizzazione.</p>
+      <div style="display:flex;justify-content:center;margin-top:1rem;">
+        <div style="background:linear-gradient(135deg,var(--card2),var(--card));border:2px solid var(--accent);border-radius:4px;padding:1.2rem 2rem;text-align:center;box-shadow:0 0 30px rgba(0,229,255,.12);">
+          <div style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:.3rem;">LIVELLI TOTALI</div>
+          <div style="font-size:2.8rem;font-weight:800;color:var(--accent);line-height:1;">4</div>
+          <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);margin-top:.2rem;">n = 2 bit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ S&H ══════════════ -->
+<section class="sec" id="sh">
+<div class="wrap">
+  <div class="sec-hd rev">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">Circuito <em>Sample &amp; Hold</em></h2>
+  </div>
+
+  <!-- ↓↓ METTI QUI LA TUA IMMAGINE ↓↓ -->
+  <div class="rev">
+    <div class="img-slot" id="img-sh">
+      <img src="img4.jpeg" alt="">
+    </div>
+    <div class="img-caption">Schema S&H — OPAMP_3T_VIRTUAL × 2, switch S2, condensatore C1 = 0.1nF, segnale AM 5V/50kHz</div>
+  </div>
+
+  <div class="g2 rev">
+    <div class="card">
+      <h3>Perché serve il S&amp;H?</h3>
+      <p>Il segnale analogico cambia continuamente. L'ADC ha bisogno di un valore <em>stabile</em> durante la conversione. Se il segnale variasse nel frattempo, la conversione sarebbe errata.</p>
+      <p>Il S&H <strong>"fotografa"</strong> il segnale in un istante e lo congela per tutta la durata della conversione.</p>
+      <div class="hl"><strong>Teorema di Nyquist:</strong> bisogna campionare a una frequenza almeno doppia rispetto alla frequenza massima del segnale da acquisire.</div>
+    </div>
+    <div class="card o">
+      <h3>I 4 Componenti</h3>
+      <ul class="steps o">
+        <li><span class="sn">U1</span><span><strong>Buffer d'ingresso (OPAMP_3T):</strong> alta Z<sub>in</sub>, isola la sorgente senza caricarla</span></li>
+        <li><span class="sn">S2</span><span><strong>Interruttore:</strong> si chiude (SAMPLE) o si apre (HOLD), comandato dal clock a 100 kHz</span></li>
+        <li><span class="sn">C1</span><span><strong>Condensatore 0.1 nF:</strong> accumula la carica in SAMPLE, la trattiene in HOLD</span></li>
+        <li><span class="sn">U2</span><span><strong>Buffer d'uscita (OPAMP_3T):</strong> alta Z<sub>in</sub> per non scaricare il condensatore</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card rev">
+    <h3>Le Due Fasi</h3>
+    <div class="timing">
+      <div class="ts s">SAMPLE</div><div class="ts s">SAMPLE</div>
+      <div class="ts h">HOLD</div><div class="ts h">HOLD</div>
+      <div class="ts s">SAMPLE</div><div class="ts s">SAMPLE</div>
+      <div class="ts h">HOLD</div><div class="ts h">HOLD</div>
+    </div>
+    <div class="g2" style="margin-top:.9rem;">
+      <div>
+        <p><strong style="color:var(--accent);">SAMPLE (S chiuso)</strong></p>
+        <p>Il condensatore si carica rapidamente. L'uscita segue l'ingresso in tempo reale.</p>
+        <div class="f">V<sub>out</sub>(t) = V<sub>in</sub>(t)</div>
+      </div>
+      <div>
+        <p><strong style="color:var(--a2);">HOLD (S aperto)</strong></p>
+        <p>Il condensatore è isolato. La tensione rimane congelata al valore campionato.</p>
+        <div class="f o">V<sub>out</sub> = V<sub>in</sub>(t<sub>s</sub>) = costante</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g3 rev">
+    <div class="card g">
+      <h3>Segnale nell'Esperimento</h3>
+      <p>La sorgente <code>V1</code> è un segnale <strong>AM</strong>: portante 5V/50kHz modulata a 100Hz. Il clock <code>U3</code> lavora a 100 kHz.</p>
+    </div>
+    <div class="card">
+      <h3>Droop</h3>
+      <p>In fase HOLD il condensatore si scarica lentamente attraverso la R<sub>in</sub> del buffer. Questa perdita progressiva si chiama <strong>droop</strong> ed è la principale non-idealità del circuito reale.</p>
+    </div>
+    <div class="card o">
+      <h3>Charge Injection</h3>
+      <p>All'apertura di S, una piccola carica parassita viene iniettata nel condensatore causando un piccolo errore di tensione. È peggiore con condensatori di valore ridotto.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ DAC R PESATE ══════════════ -->
+<section class="sec" id="dacr">
+<div class="wrap">
+  <div class="sec-hd rev">
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">DAC a <em>R Pesate</em></h2>
+  </div>
+
+  <!-- ↓↓ METTI QUI LA TUA IMMAGINE ↓↓ -->
+  <div class="rev">
+    <div class="img-slot" id="img-dacr">
+      <img src="img1.jpeg" alt="">
+    </div>
+    <div class="img-caption">Schema myDAQ — switch MSB1/LSB1, R1=1kΩ, R2=2kΩ, op-amp 741 (U3/U4), R3=0.5kΩ, R4=R5=1kΩ</div>
+  </div>
+
+  <div class="g2 rev">
+    <div class="card">
+      <h3>Principio</h3>
+      <p>Un <strong>DAC</strong> converte un numero binario in una tensione analogica proporzionale. Il tipo a <strong>R pesate</strong> usa resistenze in rapporto <code>1 : 2 : 4 : 8…</code> per pesare ogni bit in base alla sua posizione.</p>
+      <p>Ogni bit pilota uno switch: se il bit è <strong>1</strong>, la resistenza è collegata a V<sub>ref</sub>; se è <strong>0</strong>, è collegata a massa.</p>
+    </div>
+    <div class="card o">
+      <h3>Le Resistenze (2 bit)</h3>
+      <div class="rnet">
+        <div class="rnode">
+          <div class="rl">MSB — bit 1</div>
+          <div class="rv">R1 = 1 kΩ</div>
+          <div class="rw">peso doppio</div>
+        </div>
+        <div class="rnode">
+          <div class="rl">LSB — bit 0</div>
+          <div class="rv">R2 = 2 kΩ</div>
+          <div class="rw">peso semplice</div>
+        </div>
+      </div>
+      <p style="font-size:.83rem;color:var(--muted);">R<sub>MSB</sub> = metà di R<sub>LSB</sub> → porta il doppio della corrente → peso doppio.</p>
+    </div>
+  </div>
+
+  <div class="card rev">
+    <h3>Formula e Tabella d'Uscita</h3>
+    <div class="f">V<sub>out</sub> = −R<sub>f</sub> × [ V<sub>ref</sub>/R<sub>1</sub> × MSB + V<sub>ref</sub>/R<sub>2</sub> × LSB ]</div>
+    <p>Con R<sub>f</sub>=0.5kΩ, R<sub>1</sub>=1kΩ, R<sub>2</sub>=2kΩ (il secondo op-amp 741 U4 inverte il segno):</p>
+    <table>
+      <tr><th>MSB</th><th>LSB</th><th>V<sub>out</sub> attesa</th><th>Livello</th></tr>
+      <tr><td>0</td><td>0</td><td>0 V</td><td>0</td></tr>
+      <tr><td>0</td><td>1</td><td>≈ 0.94 V</td><td>1</td></tr>
+      <tr><td>1</td><td>0</td><td>≈ 1.88 V</td><td>2</td></tr>
+      <tr><td>1</td><td>1</td><td>≈ 2.81 V</td><td>3</td></tr>
+    </table>
+  </div>
+
+  <div class="g2 rev">
+    <div class="card p">
+      <h3>I Due Stadi Op-Amp 741</h3>
+      <ul class="steps p">
+        <li><span class="sn">U3</span><span><strong>Sommatore invertente:</strong> somma le correnti dei due rami pesati. L'uscita è negativa per definizione del sommatore invertente.</span></li>
+        <li><span class="sn">U4</span><span><strong>Invertitore (guadagno −1):</strong> R<sub>4</sub>=R<sub>5</sub>=1kΩ. Ribalta il segno riportando la tensione al valore positivo corretto.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Pro e Contro</h3>
+      <p><strong style="color:var(--green);">✓ Semplice</strong> da capire e veloce.</p>
+      <p><strong style="color:var(--a2);">✗ Problema:</strong> con molti bit le resistenze variano enormemente (1kΩ, 2kΩ, 4kΩ, 8kΩ…). Difficile garantire precisione. Per questo in pratica si preferisce la rete <strong>R-2R</strong>.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ DAC RELÈ ══════════════ -->
+<section class="sec" id="dacrel">
+<div class="wrap">
+  <div class="sec-hd rev">
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">DAC a <em>Relè</em></h2>
+  </div>
+
+  <!-- ↓↓ METTI QUI LA TUA IMMAGINE ↓↓ -->
+  <div class="rev">
+    <div class="img-slot" id="img-dacrel">
+      <img src="img3.jpeg" alt="">
+    </div>
+    <div class="img-caption">Schema myDAQ — relè K1/K2/K3 (bobine 1mH 1Ω), partitore R1–R5 (0.5kΩ, 1kΩ, 1kΩ, 1kΩ, 0.5kΩ)</div>
+  </div>
+
+  <div class="g2 rev">
+    <div class="card">
+      <h3>Cos'è un Relè?</h3>
+      <p>Un <strong>relè</strong> è un interruttore elettromagnetico: una piccola corrente di controllo alimenta una bobina → campo magnetico → armatura si sposta meccanicamente → contatto apre o chiude un circuito separato.</p>
+      <p>Nel DAC, ogni bit digitale pilota la bobina di un relè che connette o disconnette una resistenza del partitore analogico.</p>
+    </div>
+    <div class="card o">
+      <h3>Struttura del Circuito</h3>
+      <ul class="steps o">
+        <li><span class="sn">R</span><span><strong>Partitore pesato:</strong> R1=0.5kΩ, R2=R3=R4=1kΩ, R5=0.5kΩ in serie tra V<sub>cc</sub> e GND</span></li>
+        <li><span class="sn">K1</span><span>Relè del bit più significativo: cortocircuita la sezione più pesante del partitore</span></li>
+        <li><span class="sn">K2</span><span>Relè del bit medio</span></li>
+        <li><span class="sn">K3</span><span>Relè del bit meno significativo</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card p rev">
+    <h3>Come Varia la Tensione d'Uscita</h3>
+    <p>Quando un relè si chiude, <strong>cortocircuita una sezione del partitore</strong>: la resistenza totale cambia e quindi cambia la tensione al nodo di uscita. Ogni combinazione di relè produce una tensione diversa:</p>
+    <div class="f">V<sub>out</sub> ∝ Σ (bit<sub>i</sub> × 2<sup>i</sup>)</div>
+    <p>Con 3 relè si ottengono <strong>2³ = 8 livelli</strong>. Con n relè si ottengono 2<sup>n</sup> livelli.</p>
+  </div>
+
+  <div class="g3 rev">
+    <div class="card g">
+      <h3>Vantaggi</h3>
+      <p>Isolamento <strong>galvanico</strong> completo tra circuito digitale di controllo e carico analogico. Gestisce carichi ad alta potenza. Robusto ai disturbi elettrici.</p>
+    </div>
+    <div class="card">
+      <h3>Svantaggi</h3>
+      <p>Velocità limitata (ms, non ns). Usura meccanica dopo molte commutazioni. Rimbalzo dei contatti all'apertura/chiusura.</p>
+    </div>
+    <div class="card o">
+      <h3>Back-EMF e Protezione</h3>
+      <p>All'apertura del relè la bobina genera un picco inverso (<strong>back-EMF</strong>) che può bruciare il transistor di pilotaggio. Si protegge con un <strong>diodo di ricircolo</strong> in antiparallelo alla bobina.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ RIEPILOGO ══════════════ -->
+<section class="sec" id="riepilogo">
+<div class="wrap">
+  <div class="sec-hd rev">
+    <span class="sec-num">✦</span>
+    <h2 class="sec-title">Riepilogo <em>Formule</em></h2>
+  </div>
+  <div class="g2 rev">
+    <div class="card">
+      <h3>ADC</h3>
+      <div class="f">N comparatori = 2<sup>n</sup> − 1</div>
+      <div class="f">N livelli = 2<sup>n</sup></div>
+      <div class="f o">Risoluzione = V<sub>FS</sub> / 2<sup>n</sup></div>
+      <div class="f g">f<sub>camp</sub> ≥ 2 × f<sub>max</sub> &nbsp;(Nyquist)</div>
+    </div>
+    <div class="card o">
+      <h3>DAC</h3>
+      <div class="f">V<sub>out</sub> = −R<sub>f</sub> × Σ(V<sub>i</sub>/R<sub>i</sub>)</div>
+      <div class="f o">Peso bit i = 2<sup>i</sup> × LSB</div>
+      <div class="f g">LSB = V<sub>FS</sub> / 2<sup>n</sup></div>
+    </div>
+  </div>
+  <div class="card g rev" style="margin-top:1.5rem;">
+    <h3>Tabella Comparativa</h3>
+    <table>
+      <tr><th>Caratteristica</th><th>ADC Flash</th><th>DAC R-Pesate</th><th>DAC Relè</th><th>S&amp;H</th></tr>
+      <tr><td>Velocità</td><td style="color:var(--green);">Altissima</td><td style="color:var(--accent);">Alta</td><td style="color:var(--a2);">Bassa</td><td style="color:var(--accent);">Alta</td></tr>
+      <tr><td>Componenti chiave</td><td>Comparatori</td><td>OpAmp + R</td><td>Relè + R</td><td>Switch + C</td></tr>
+      <tr><td>Isolamento galvanico</td><td>No</td><td>No</td><td style="color:var(--green);">Sì</td><td>No</td></tr>
+      <tr><td>Chip usato in lab</td><td>LM358N</td><td>741</td><td>myDAQ</td><td>OPAMP_3T</td></tr>
+    </table>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Elettronica Digitale</strong> — Guida alla Verifica · Prof. Messina</p>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('vis'), i*70);
+  });
+}, {threshold:.07});
+document.querySelectorAll('.rev').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
